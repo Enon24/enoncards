@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import PriceTrend from './PriceTrend';
 
 interface Card {
   id: string;
@@ -13,9 +14,11 @@ interface Card {
   series: string;
   condition: string;
   price: number;
+  priceChange?: number;
   description: string;
   rarity: string;
   trending?: boolean;
+  ebaySearchUrl?: string;
 }
 
 const sportColors: Record<string, string> = {
@@ -91,24 +94,42 @@ export default function CardItem({ card }: { card: Card }) {
           <h3 className="text-white font-bold text-lg truncate">{card.name}</h3>
           <p className="text-[#94A3B8] text-sm mb-1">{card.team}</p>
           <p className="text-[#94A3B8]/60 text-xs mb-3">{card.year} · {card.brand} · {card.condition}</p>
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${rarityColor}`}>
               {card.rarity}
             </span>
-            <span className="text-[#3B82F6] font-bold text-lg">${card.price.toFixed(0)}</span>
+            <span className="text-[#3B82F6] font-bold text-lg">${card.price.toLocaleString('de-DE')}</span>
           </div>
-          <button
-            onClick={toggleSave}
-            aria-pressed={saved}
-            aria-label={saved ? 'Aus Sammlung entfernen' : 'Zur Sammlung hinzufügen'}
-            className={`mt-auto w-full text-sm font-semibold py-2 rounded-lg transition-all duration-200 ${
-              saved
-                ? 'bg-[#1e3a6e] text-[#3B82F6] border border-[#2563EB]'
-                : 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white'
-            }`}
-          >
-            {saved ? '✓ In Sammlung' : '+ Zur Sammlung'}
-          </button>
+          {card.priceChange !== undefined && (
+            <div className="mb-3">
+              <PriceTrend priceChange={card.priceChange} />
+            </div>
+          )}
+          <div className="mt-auto flex flex-col gap-2">
+            {card.ebaySearchUrl && (
+              <a
+                href={card.ebaySearchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={e => e.stopPropagation()}
+                className="w-full text-center text-xs font-semibold py-1.5 rounded-lg bg-[#0A1628] border border-[#1e3a6e] text-[#94A3B8] hover:border-[#3B82F6] hover:text-[#3B82F6] transition-all"
+              >
+                🏷️ eBay Live-Preis
+              </a>
+            )}
+            <button
+              onClick={toggleSave}
+              aria-pressed={saved}
+              aria-label={saved ? 'Aus Sammlung entfernen' : 'Zur Sammlung hinzufügen'}
+              className={`w-full text-sm font-semibold py-2 rounded-lg transition-all duration-200 ${
+                saved
+                  ? 'bg-[#1e3a6e] text-[#3B82F6] border border-[#2563EB]'
+                  : 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white'
+              }`}
+            >
+              {saved ? '✓ In Sammlung' : '+ Zur Sammlung'}
+            </button>
+          </div>
         </div>
       </div>
     </Link>

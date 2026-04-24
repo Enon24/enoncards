@@ -48,6 +48,9 @@ export default function Header() {
               </span>
             )}
           </Link>
+          <Link href="/enoncards/markt" className="text-[#E2E8F0] hover:text-[#3B82F6] transition-colors">
+            Markt-Analyse
+          </Link>
           <Link href="/enoncards/guide" className="text-[#E2E8F0] hover:text-[#3B82F6] transition-colors">
             Preis-Guide
           </Link>
