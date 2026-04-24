@@ -15,28 +15,16 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-[#0F172A] py-24 px-4 text-center overflow-hidden">
+      <section className="relative bg-[#0A1628] py-24 px-4 text-center overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-[#F59E0B] rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-64 h-64 bg-[#F59E0B] rounded-full blur-3xl" />
+          <div className="absolute top-10 left-10 w-64 h-64 bg-[#1D4ED8] rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-64 h-64 bg-[#1D4ED8] rounded-full blur-3xl" />
         </div>
         <div className="relative max-w-4xl mx-auto">
-          <p className="text-[#F59E0B] text-sm font-semibold tracking-widest uppercase mb-4">Premium Sports Cards</p>
+          <p className="text-[#3B82F6] text-sm font-semibold tracking-widest uppercase mb-4">Premium Sports Cards</p>
           <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-tight mb-6">
-            ENON <span className="text-[#F59E0B]">CARDS</span>
+            ENON <span className="text-[#3B82F6]">CARDS</span>
           </h1>
-          <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10">
-            Entdecke die wertvollsten Sammelkarten aus Baseball, Basketball, Football und Hockey.
-            Rookie Cards, Prizm-Karten und legendäre Editionen.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/enoncards/cards" className="bg-[#F59E0B] text-[#0F172A] font-bold px-8 py-3 rounded-full hover:bg-yellow-400 transition-colors text-lg">
-              Zum Katalog →
-            </Link>
-            <Link href="/enoncards/sport/baseball" className="border border-[#F59E0B] text-[#F59E0B] font-bold px-8 py-3 rounded-full hover:bg-[#F59E0B]/10 transition-colors text-lg">
-              Jetzt entdecken
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -62,7 +50,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold text-white">Neueste Karten</h2>
-          <Link href="/enoncards/cards" className="text-[#F59E0B] hover:text-yellow-300 font-medium transition-colors">
+          <Link href="/enoncards/cards" className="text-[#3B82F6] hover:text-blue-300 font-medium transition-colors">
             Alle anzeigen →
           </Link>
         </div>

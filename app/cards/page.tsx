@@ -32,18 +32,18 @@ export default function CatalogPage() {
       <h1 className="text-4xl font-bold text-white mb-2">Kartenkatalog</h1>
       <p className="text-gray-400 mb-8">{filtered.length} Karten gefunden</p>
 
-      <div className="flex flex-wrap gap-4 mb-8 bg-[#1E293B] p-4 rounded-xl">
+      <div className="flex flex-wrap gap-4 mb-8 bg-[#0D1F3C] p-4 rounded-xl">
         <input
           type="text"
           placeholder="Spieler oder Team suchen..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="flex-1 min-w-48 bg-[#0F172A] text-white border border-[#F59E0B]/30 rounded-lg px-4 py-2 focus:outline-none focus:border-[#F59E0B] placeholder-gray-500"
+          className="flex-1 min-w-48 bg-[#0A1628] text-white border border-[#1D4ED8]/30 rounded-lg px-4 py-2 focus:outline-none focus:border-[#3B82F6] placeholder-gray-500"
         />
         <select
           value={sport}
           onChange={e => setSport(e.target.value)}
-          className="bg-[#0F172A] text-white border border-[#F59E0B]/30 rounded-lg px-4 py-2 focus:outline-none focus:border-[#F59E0B]"
+          className="bg-[#0A1628] text-white border border-[#1D4ED8]/30 rounded-lg px-4 py-2 focus:outline-none focus:border-[#3B82F6]"
         >
           <option value="all">Alle Sportarten</option>
           <option value="baseball">Baseball</option>
@@ -54,7 +54,7 @@ export default function CatalogPage() {
         <select
           value={sort}
           onChange={e => setSort(e.target.value)}
-          className="bg-[#0F172A] text-white border border-[#F59E0B]/30 rounded-lg px-4 py-2 focus:outline-none focus:border-[#F59E0B]"
+          className="bg-[#0A1628] text-white border border-[#1D4ED8]/30 rounded-lg px-4 py-2 focus:outline-none focus:border-[#3B82F6]"
         >
           <option value="name">Name (A–Z)</option>
           <option value="price-desc">Preis (hoch → niedrig)</option>
