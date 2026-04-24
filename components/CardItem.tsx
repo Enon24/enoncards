@@ -25,7 +25,7 @@ const rarityColors: Record<string, string> = {
   common: 'bg-gray-600 text-gray-200',
   uncommon: 'bg-green-700 text-green-100',
   rare: 'bg-blue-700 text-blue-100',
-  legendary: 'bg-yellow-600 text-yellow-100',
+  legendary: 'bg-blue-600 text-blue-100',
 };
 
 export default function CardItem({ card }: { card: Card }) {
@@ -34,7 +34,7 @@ export default function CardItem({ card }: { card: Card }) {
 
   return (
     <Link href={`/enoncards/cards/${card.id}`}>
-      <div className="bg-[#1E293B] border border-[#F59E0B]/20 rounded-xl overflow-hidden hover:border-[#F59E0B]/60 hover:shadow-lg hover:shadow-[#F59E0B]/10 transition-all duration-300 cursor-pointer group">
+      <div className="bg-[#0D1F3C] border border-[#1D4ED8]/20 rounded-xl overflow-hidden hover:border-[#3B82F6]/60 hover:shadow-lg hover:shadow-[#3B82F6]/10 transition-all duration-300 cursor-pointer group">
         <div className="relative">
           <img
             src="/enoncards/images/placeholder.svg"
@@ -53,7 +53,7 @@ export default function CardItem({ card }: { card: Card }) {
             <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${rarityColor}`}>
               {card.rarity}
             </span>
-            <span className="text-[#F59E0B] font-bold text-lg">${card.price.toFixed(2)}</span>
+            <span className="text-[#3B82F6] font-bold text-lg">${card.price.toFixed(2)}</span>
           </div>
         </div>
       </div>
