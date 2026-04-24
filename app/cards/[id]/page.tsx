@@ -1,23 +1,23 @@
 import Link from 'next/link';
 import cards from '@/data/cards.json';
 import { notFound } from 'next/navigation';
+import CardItem from '@/components/CardItem';
 
 export function generateStaticParams() {
   return cards.map(card => ({ id: card.id }));
 }
 
 const sportColors: Record<string, string> = {
-  baseball: 'bg-red-600',
-  basketball: 'bg-orange-600',
-  football: 'bg-green-700',
-  hockey: 'bg-blue-600',
+  baseball: 'bg-blue-700',
+  basketball: 'bg-blue-500',
+  football: 'bg-blue-600',
+  hockey: 'bg-blue-800',
 };
 
 const rarityColors: Record<string, string> = {
-  common: 'bg-gray-600 text-gray-200',
-  uncommon: 'bg-green-700 text-green-100',
-  rare: 'bg-blue-700 text-blue-100',
-  legendary: 'bg-blue-600 text-blue-100',
+  common: 'bg-[#1e3a6e] text-[#94A3B8]',
+  rare: 'bg-[#1D4ED8] text-blue-100',
+  legendary: 'bg-[#2563EB] text-white',
 };
 
 export default async function CardDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -25,63 +25,112 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
   const card = cards.find(c => c.id === id);
   if (!card) notFound();
 
-  const sportColor = sportColors[card.sport] || 'bg-gray-600';
-  const rarityColor = rarityColors[card.rarity] || 'bg-gray-600 text-gray-200';
+  const sportColor = sportColors[card.sport] || 'bg-blue-600';
+  const rarityColor = rarityColors[card.rarity] || rarityColors.common;
+
+  const similarCards = cards
+    .filter(c => c.sport === card.sport && c.id !== card.id)
+    .slice(0, 3);
+
+  const isHighValue = card.rarity === 'rare' || card.rarity === 'legendary';
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
-      <Link href="/enoncards/cards" className="inline-flex items-center text-[#3B82F6] hover:text-blue-300 mb-8 transition-colors font-medium">
+      <Link href="/enoncards/cards" className="inline-flex items-center text-[#3B82F6] hover:text-blue-300 mb-8 transition-colors font-medium text-sm">
         ← Zurück zum Katalog
       </Link>
 
-      <div className="grid md:grid-cols-2 gap-12 bg-[#0D1F3C] rounded-2xl p-8 border border-[#1D4ED8]/20">
+      <div className="grid md:grid-cols-2 gap-12 bg-[#0D1F3C] rounded-2xl p-8 border border-[#1e3a6e] mb-8">
         <div className="flex justify-center">
           <div className="relative">
             <img
               src="/enoncards/images/placeholder.svg"
               alt={card.name}
-              className="w-72 rounded-xl border-2 border-[#3B82F6]/40 shadow-2xl shadow-[#3B82F6]/10"
+              className="w-72 rounded-xl border-2 border-[#2563EB]/40 shadow-2xl shadow-[#3B82F6]/10"
             />
             <span className={`absolute top-3 left-3 ${sportColor} text-white text-xs font-bold px-3 py-1 rounded-full uppercase`}>
               {card.sport}
             </span>
+            {card.trending && (
+              <span className="absolute top-3 right-3 bg-[#2563EB] text-white text-xs font-bold px-2 py-1 rounded-full">
+                📈 Trending
+              </span>
+            )}
           </div>
         </div>
 
         <div className="flex flex-col justify-center">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-3 mb-4 flex-wrap">
             <span className={`text-sm font-semibold px-3 py-1 rounded-full ${rarityColor}`}>
               {card.rarity}
             </span>
-            <span className="text-gray-500 text-sm">{card.condition}</span>
+            <span className="text-[#94A3B8] text-sm bg-[#0A1628] px-3 py-1 rounded-full border border-[#1e3a6e]">{card.condition}</span>
           </div>
 
           <h1 className="text-4xl font-extrabold text-white mb-2">{card.name}</h1>
           <p className="text-[#3B82F6] text-xl font-semibold mb-1">{card.team}</p>
-          <p className="text-gray-400 mb-6">{card.year}</p>
+          <p className="text-[#94A3B8] mb-6">{card.year} · {card.brand}</p>
 
-          <p className="text-gray-300 mb-8 leading-relaxed">{card.description}</p>
+          <p className="text-[#E2E8F0] mb-8 leading-relaxed">{card.description}</p>
 
-          <div className="grid grid-cols-2 gap-4 mb-8">
+          {isHighValue && (
+            <div className="bg-[#1a2f5e] border border-[#2563EB]/40 rounded-xl p-4 mb-4">
+              <p className="text-[#3B82F6] font-semibold">
+                💎 {card.rarity === 'legendary' ? 'Legendäre Karte' : 'Seltene Karte'} – Hohes Wertsteigerungspotenzial
+              </p>
+              <p className="text-[#94A3B8] text-sm mt-1">
+                Diese Karte hat aufgrund ihrer Seltenheit und des Spielers ein überdurchschnittliches Investitionspotenzial.
+              </p>
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-3 mb-6">
             {[
               { label: 'Marke', value: card.brand },
               { label: 'Serie', value: card.series },
               { label: 'Zustand', value: card.condition },
               { label: 'Jahr', value: String(card.year) },
             ].map(({ label, value }) => (
-              <div key={label} className="bg-[#0A1628] rounded-lg p-3">
-                <p className="text-gray-500 text-xs uppercase tracking-wide mb-1">{label}</p>
-                <p className="text-white font-semibold">{value}</p>
+              <div key={label} className="bg-[#0A1628] rounded-lg p-3 border border-[#1e3a6e]">
+                <p className="text-[#94A3B8] text-xs uppercase tracking-wide mb-1">{label}</p>
+                <p className="text-white font-semibold text-sm">{value}</p>
               </div>
             ))}
           </div>
 
-          <div className="flex items-center justify-between bg-[#0A1628] rounded-xl p-4 border border-[#1D4ED8]/30">
-            <span className="text-gray-400 font-medium">Preis</span>
-            <span className="text-[#3B82F6] text-3xl font-extrabold">${card.price.toFixed(2)}</span>
+          <div className="flex items-center justify-between bg-[#0A1628] rounded-xl p-4 border border-[#1e3a6e]">
+            <span className="text-[#94A3B8] font-medium">Marktwert (Richtwert)</span>
+            <span className="text-[#3B82F6] text-3xl font-extrabold">${card.price.toFixed(0)}</span>
           </div>
         </div>
       </div>
+
+      {/* Grading Info */}
+      <div className="bg-[#0D1F3C] rounded-2xl p-6 border border-[#1e3a6e] mb-8">
+        <h2 className="text-xl font-bold text-white mb-4">📋 Was bedeutet {card.condition}?</h2>
+        <div className="grid sm:grid-cols-2 gap-4 text-sm text-[#94A3B8]">
+          <div>
+            <p className="text-[#E2E8F0] font-semibold mb-1">PSA Grading System</p>
+            <p>PSA (Professional Sports Authenticator) bewertet Karten auf einer Skala von 1–10. PSA 10 (Gem Mint) ist die höchste Note und beschreibt eine perfekte Karte ohne Mängel.</p>
+          </div>
+          <div>
+            <p className="text-[#E2E8F0] font-semibold mb-1">Warum ist Grading wichtig?</p>
+            <p>Eine PSA 10 Karte kann im Vergleich zu einer ungraduierten Karte den 3–10-fachen Wert haben. Das Grading schützt die Karte und bestätigt ihre Authentizität.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Similar Cards */}
+      {similarCards.length > 0 && (
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-6">Ähnliche Karten</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {similarCards.map(c => (
+              <CardItem key={c.id} card={c} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
