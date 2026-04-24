@@ -13,6 +13,7 @@ export default function Footer() {
             <p className="text-[#E2E8F0] font-semibold mb-2 text-sm">Navigation</p>
             <ul className="space-y-1 text-sm">
               <li><Link href="/enoncards/cards" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors">Katalog</Link></li>
+              <li><Link href="/enoncards/markt" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors">Markt-Analyse</Link></li>
               <li><Link href="/enoncards/guide" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors">Preis-Guide</Link></li>
               <li><Link href="/enoncards/sammlung" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors">Meine Sammlung</Link></li>
             </ul>
@@ -28,7 +29,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-[#1e3a6e] pt-4 text-center text-sm text-[#94A3B8]">
-          <p>ENON CARDS © 2025 · Alle Preise sind Richtwerte und dienen nur zur Information.</p>
+          <p>ENON CARDS © 2025 · Preise sind recherchierte Richtwerte (Stand April 2026). Keine Anlageberatung. Quellen: CardLadder, eBay, Grand View Research.</p>
         </div>
       </div>
     </footer>

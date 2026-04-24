@@ -4,13 +4,15 @@ import { notFound } from 'next/navigation';
 
 const sports = ['baseball', 'basketball', 'football', 'hockey'];
 
-const sportConfig: Record<string, { label: string; color: string; bg: string; border: string; icon: string }> = {
+const sportConfig: Record<string, { label: string; color: string; bg: string; border: string; icon: string; marketIndex: string; indexNote: string }> = {
   baseball: {
     label: 'Baseball',
     color: 'text-blue-400',
     bg: 'bg-[#0D1F3C]',
     border: 'border-blue-700',
     icon: '⚾',
+    marketIndex: '+17%',
+    indexNote: 'CardLadder Baseball Index 2025',
   },
   basketball: {
     label: 'Basketball',
@@ -18,6 +20,8 @@ const sportConfig: Record<string, { label: string; color: string; bg: string; bo
     bg: 'bg-[#0D1F3C]',
     border: 'border-blue-500',
     icon: '🏀',
+    marketIndex: '+29%',
+    indexNote: 'CardLadder Basketball Index 2025 – stärkste Sportart',
   },
   football: {
     label: 'Football',
@@ -25,6 +29,8 @@ const sportConfig: Record<string, { label: string; color: string; bg: string; bo
     bg: 'bg-[#0D1F3C]',
     border: 'border-blue-600',
     icon: '🏈',
+    marketIndex: '+0.61%',
+    indexNote: 'CardLadder Football Index 2025 – Rookie-getrieben',
   },
   hockey: {
     label: 'Hockey',
@@ -32,6 +38,8 @@ const sportConfig: Record<string, { label: string; color: string; bg: string; bo
     bg: 'bg-[#0D1F3C]',
     border: 'border-blue-800',
     icon: '🏒',
+    marketIndex: '+2.98%',
+    indexNote: 'CardLadder Hockey Index 2025',
   },
 };
 
@@ -59,6 +67,15 @@ export default async function SportPage({ params }: { params: Promise<{ sport: s
         <p className="text-[#94A3B8]">{sportCards.length} Karten in dieser Kategorie</p>
       </div>
 
+      {/* Market Index Banner */}
+      <div className="bg-[#162444] border border-[#1e3a6e] rounded-xl p-4 mb-8 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span className="text-[#94A3B8] text-sm">Market Index 2025: </span>
+          <span className="text-[#10B981] font-extrabold text-xl">↑ {config.marketIndex}</span>
+        </div>
+        <span className="text-[#94A3B8] text-xs">{config.indexNote}</span>
+      </div>
+
       {/* Stat Bar */}
       <div className="grid grid-cols-3 gap-4 mb-10">
         <div className="bg-[#0D1F3C] border border-[#1e3a6e] rounded-xl p-5 text-center">
@@ -66,7 +83,7 @@ export default async function SportPage({ params }: { params: Promise<{ sport: s
           <div className="text-[#94A3B8] text-sm">Karten</div>
         </div>
         <div className="bg-[#0D1F3C] border border-[#1e3a6e] rounded-xl p-5 text-center">
-          <div className="text-2xl font-extrabold text-[#3B82F6] mb-1">${maxPrice.toFixed(0)}</div>
+          <div className="text-2xl font-extrabold text-[#3B82F6] mb-1">${maxPrice.toLocaleString('de-DE')}</div>
           <div className="text-[#94A3B8] text-sm">Teuerste Karte</div>
           {topCard && <div className="text-[#94A3B8]/60 text-xs mt-1 truncate">{topCard.name}</div>}
         </div>
