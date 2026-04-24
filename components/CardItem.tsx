@@ -99,6 +99,8 @@ export default function CardItem({ card }: { card: Card }) {
           </div>
           <button
             onClick={toggleSave}
+            aria-pressed={saved}
+            aria-label={saved ? 'Aus Sammlung entfernen' : 'Zur Sammlung hinzufügen'}
             className={`mt-auto w-full text-sm font-semibold py-2 rounded-lg transition-all duration-200 ${
               saved
                 ? 'bg-[#1e3a6e] text-[#3B82F6] border border-[#2563EB]'

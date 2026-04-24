@@ -102,6 +102,7 @@ export default function CatalogPage() {
           <button
             onClick={() => { setSearch(''); setSport('all'); setRarity('all'); setCondition('all'); }}
             className="mt-4 text-[#3B82F6] hover:text-blue-300 underline text-sm"
+            aria-label="Alle Filter zurücksetzen"
           >
             Filter zurücksetzen
           </button>

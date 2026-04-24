@@ -151,6 +151,7 @@ export default function SammlungPage() {
               onClick={() => removeFromCollection(card.id)}
               className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2 py-1 rounded-full transition-colors z-10"
               title="Aus Sammlung entfernen"
+              aria-label={`${card.name} aus Sammlung entfernen`}
             >
               ✕
             </button>

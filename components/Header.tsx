@@ -40,7 +40,10 @@ export default function Header() {
           <Link href="/enoncards/sammlung" className="text-[#E2E8F0] hover:text-[#3B82F6] transition-colors relative">
             Meine Sammlung
             {count > 0 && (
-              <span className="absolute -top-2 -right-4 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+              <span
+                className="absolute -top-2 -right-4 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full"
+                aria-label={`${count} Karten in der Sammlung`}
+              >
                 {count > 9 ? '9+' : count}
               </span>
             )}
