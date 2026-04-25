@@ -58,6 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ sport: st
     openGraph: {
       title: `${config.icon} ${config.label} Karten | ENON CARDS`,
       description: `Alle ${config.label} Sammelkarten im Überblick. Market Index 2025: ${config.marketIndex}.`,
+      images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS' }],
     },
   };
 }
@@ -77,7 +78,7 @@ export default async function SportPage({ params }: { params: Promise<{ sport: s
     <div className="max-w-7xl mx-auto px-4 py-12">
       {/* Header */}
       <div className={`${config.bg} border ${config.border} rounded-2xl p-10 mb-8 text-center`}>
-        <div className="text-6xl mb-3">{config.icon}</div>
+        <div className="text-6xl mb-3" aria-hidden="true">{config.icon}</div>
         <h1 className={`text-5xl font-extrabold ${config.color} mb-2`}>{config.label}</h1>
         <p className="text-[#94A3B8]">{sportCards.length} Karten in dieser Kategorie</p>
       </div>

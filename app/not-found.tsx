@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: '404 – Seite nicht gefunden',
+  description: 'Die gesuchte Seite existiert nicht. Entdecke unseren Kartenkatalog oder kehre zur Startseite zurück.',
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (

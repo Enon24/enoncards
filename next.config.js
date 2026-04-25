@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'export',
   basePath: '/enoncards',
   assetPrefix: '/enoncards/',
+  trailingSlash: true,
   images: { unoptimized: true },
 };
 module.exports = nextConfig;
