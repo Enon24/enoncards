@@ -6,7 +6,6 @@ interface PriceTrendProps {
 export default function PriceTrend({ priceChange, showBadge = true }: PriceTrendProps) {
   const isPositive = priceChange > 0;
   const isHot = priceChange > 30;
-  const abs = Math.abs(priceChange).toFixed(1);
 
   return (
     <span className="flex items-center gap-1">

@@ -66,13 +66,13 @@ export default function HomePage() {
           <p className="text-[#E2E8F0] text-xl md:text-2xl font-light mb-8">Dein Sportkarten-Universum</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              href="/enoncards/cards"
+              href="/cards"
               className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-8 py-3 rounded-xl transition-colors"
             >
               Katalog entdecken →
             </Link>
             <Link
-              href="/enoncards/markt"
+              href="/markt"
               className="bg-[#162444] hover:bg-[#1a2f5e] text-white font-semibold px-8 py-3 rounded-xl border border-[#1e3a6e] transition-colors"
             >
               Markt-Analyse 2025
@@ -91,7 +91,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {marketIndex.map(item => (
-              <Link key={item.sport} href={`/enoncards/sport/${item.sport}`}>
+            <Link key={item.sport} href={`/sport/${item.sport}`}>
                 <div className="bg-[#162444] border border-[#1e3a6e] hover:border-[#3B82F6]/50 rounded-xl p-4 text-center transition-colors cursor-pointer">
                   <div className="text-2xl mb-1">{item.icon}</div>
                   <div className="text-[#10B981] text-xl font-extrabold">↑ {item.change}</div>
@@ -166,7 +166,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-white">Neueste Karten</h2>
-            <Link href="/enoncards/cards" className="text-[#3B82F6] hover:text-blue-300 font-medium transition-colors text-sm">
+            <Link href="/cards" className="text-[#3B82F6] hover:text-blue-300 font-medium transition-colors text-sm">
               Alle 30 anzeigen →
             </Link>
           </div>
