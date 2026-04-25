@@ -1,4 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Markt-Analyse 2025',
+  description: 'Reale Sportkarten-Marktdaten 2025: CardLadder Index, eBay Top-Verkäufer, Investitions-Insights und Wachstumsprognosen.',
+  openGraph: {
+    title: 'Markt-Analyse 2025 | ENON CARDS',
+    description: 'Reale Sportkarten-Marktdaten 2025: CardLadder Index, eBay Top-Verkäufer, Investitions-Insights und Wachstumsprognosen.',
+  },
+};
 
 const marketIndex = [
   { label: 'Basketball Index', change: '+29%', icon: '🏀', sport: 'basketball', detail: 'Stärkste Sportart 2025' },
@@ -55,7 +65,7 @@ export default function MarktPage() {
         <p className="text-[#94A3B8] text-sm mb-6">CL50 Gesamtmarkt: <span className="text-[#10B981] font-bold">↑ +28%</span> · Quelle: CardLadder.com (2025)</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           {marketIndex.map(item => (
-            <Link key={item.sport} href={`/enoncards/sport/${item.sport}`}>
+            <Link key={item.sport} href={`/sport/${item.sport}`}>
               <div className="bg-[#162444] border border-[#1e3a6e] hover:border-[#3B82F6]/60 rounded-xl p-6 text-center transition-colors cursor-pointer group">
                 <div className="text-4xl mb-2">{item.icon}</div>
                 <div className="text-[#10B981] text-3xl font-extrabold mb-1">↑ {item.change}</div>
@@ -181,13 +191,13 @@ export default function MarktPage() {
 
       <div className="flex flex-wrap gap-4 justify-center">
         <Link
-          href="/enoncards/cards"
+          href="/cards"
           className="inline-block bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-8 py-3 rounded-xl transition-colors"
         >
           Zum Kartenkatalog →
         </Link>
         <Link
-          href="/enoncards/guide"
+          href="/guide"
           className="inline-block bg-[#162444] hover:bg-[#1a2f5e] border border-[#1e3a6e] text-white font-semibold px-8 py-3 rounded-xl transition-colors"
         >
           Preis-Guide →

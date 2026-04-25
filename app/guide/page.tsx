@@ -1,4 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Preis-Guide 2025',
+  description: 'Alles über den Wert von Sportkarten: PSA-Grading-Tabelle, Investitions-Tipps und Glossar mit echten Marktdaten 2025.',
+  openGraph: {
+    title: 'Preis-Guide 2025 | ENON CARDS',
+    description: 'Alles über den Wert von Sportkarten: PSA-Grading-Tabelle, Investitions-Tipps und Glossar mit echten Marktdaten 2025.',
+  },
+};
 
 const gradingTable = [
   { grade: 'PSA 1', name: 'Poor', desc: 'Stark beschädigt, kaum erkennbar', multiplier: '2%' },
@@ -169,13 +179,13 @@ export default function GuidePage() {
 
       <div className="flex flex-wrap gap-4 justify-center">
         <Link
-          href="/enoncards/cards"
+          href="/cards"
           className="inline-block bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-8 py-3 rounded-xl transition-colors"
         >
           Zum Kartenkatalog →
         </Link>
         <Link
-          href="/enoncards/markt"
+          href="/markt"
           className="inline-block bg-[#162444] hover:bg-[#1a2f5e] border border-[#1e3a6e] text-white font-semibold px-8 py-3 rounded-xl transition-colors"
         >
           Markt-Analyse →

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import cards from '@/data/cards.json';
 import { notFound } from 'next/navigation';
@@ -6,6 +7,20 @@ import PriceTrend from '@/components/PriceTrend';
 
 export function generateStaticParams() {
   return cards.map(card => ({ id: card.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const card = cards.find(c => c.id === id);
+  if (!card) return {};
+  return {
+    title: `${card.name} – ${card.year} ${card.brand}`,
+    description: card.description,
+    openGraph: {
+      title: `${card.name} – ${card.year} ${card.brand} | ENON CARDS`,
+      description: card.description,
+    },
+  };
 }
 
 const sportColors: Record<string, string> = {
@@ -37,7 +52,7 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
-      <Link href="/enoncards/cards" className="inline-flex items-center text-[#3B82F6] hover:text-blue-300 mb-8 transition-colors font-medium text-sm">
+      <Link href="/cards" className="inline-flex items-center text-[#3B82F6] hover:text-blue-300 mb-8 transition-colors font-medium text-sm">
         ← Zurück zum Katalog
       </Link>
 
@@ -47,6 +62,8 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
             <img
               src="/enoncards/images/placeholder.svg"
               alt={card.name}
+              width={288}
+              height={288}
               className="w-72 rounded-xl border-2 border-[#2563EB]/40 shadow-2xl shadow-[#3B82F6]/10"
             />
             <span className={`absolute top-3 left-3 ${sportColor} text-white text-xs font-bold px-3 py-1 rounded-full uppercase`}>

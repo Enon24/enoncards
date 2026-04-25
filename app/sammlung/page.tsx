@@ -1,25 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import allCards from '@/data/cards.json';
-
-type Card = typeof allCards[0];
-
-function getCollection(): string[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    return JSON.parse(localStorage.getItem('enoncards-collection') || '[]');
-  } catch {
-    return [];
-  }
-}
-
-function removeFromCollection(id: string) {
-  const col = getCollection().filter(cid => cid !== id);
-  localStorage.setItem('enoncards-collection', JSON.stringify(col));
-  window.dispatchEvent(new Event('collection-changed'));
-}
+import { useCollection, removeFromCollection } from '@/lib/collection';
 
 const sportLabels: Record<string, string> = {
   baseball: '⚾ Baseball',
@@ -29,33 +12,11 @@ const sportLabels: Record<string, string> = {
 };
 
 export default function SammlungPage() {
-  const [collectionIds, setCollectionIds] = useState<string[]>([]);
-  const [mounted, setMounted] = useState(false);
+  const collectionIds = useCollection();
 
-  useEffect(() => {
-    setMounted(true);
-    setCollectionIds(getCollection());
-    const handler = () => setCollectionIds(getCollection());
-    window.addEventListener('collection-changed', handler);
-    window.addEventListener('storage', handler);
-    return () => {
-      window.removeEventListener('collection-changed', handler);
-      window.removeEventListener('storage', handler);
-    };
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold text-white mb-8">Meine Sammlung</h1>
-        <div className="text-[#94A3B8]">Lädt...</div>
-      </div>
-    );
-  }
-
-  const collectionCards: Card[] = collectionIds
+  const collectionCards = collectionIds
     .map(id => allCards.find(c => c.id === id))
-    .filter((c): c is Card => c !== undefined);
+    .filter((c): c is typeof allCards[0] => c !== undefined);
 
   const totalValue = collectionCards.reduce((sum, c) => sum + c.price, 0);
 
@@ -74,7 +35,7 @@ export default function SammlungPage() {
           <h2 className="text-2xl font-bold text-white mb-3">Deine Sammlung ist leer</h2>
           <p className="text-[#94A3B8] mb-6">Füge Karten aus dem Katalog hinzu, um deine Sammlung aufzubauen.</p>
           <Link
-            href="/enoncards/cards"
+            href="/cards"
             className="inline-block bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-6 py-3 rounded-xl transition-colors"
           >
             Zum Katalog →
@@ -122,12 +83,14 @@ export default function SammlungPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {collectionCards.map(card => (
           <div key={card.id} className="relative">
-            <Link href={`/enoncards/cards/${card.id}`}>
+            <Link href={`/cards/${card.id}`}>
               <div className="bg-[#0D1F3C] border border-[#1e3a6e] rounded-xl overflow-hidden hover:border-[#3B82F6]/60 transition-all duration-300 cursor-pointer group">
                 <div className="relative">
                   <img
                     src="/enoncards/images/placeholder.svg"
                     alt={card.name}
+                    width={400}
+                    height={160}
                     className="w-full h-40 object-cover"
                   />
                   <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full uppercase">
@@ -150,7 +113,6 @@ export default function SammlungPage() {
             <button
               onClick={() => removeFromCollection(card.id)}
               className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2 py-1 rounded-full transition-colors z-10"
-              title="Aus Sammlung entfernen"
               aria-label={`${card.name} aus Sammlung entfernen`}
             >
               ✕

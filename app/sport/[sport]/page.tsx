@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import CardItem from '@/components/CardItem';
 import cards from '@/data/cards.json';
 import { notFound } from 'next/navigation';
@@ -45,6 +46,20 @@ const sportConfig: Record<string, { label: string; color: string; bg: string; bo
 
 export function generateStaticParams() {
   return sports.map(sport => ({ sport }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ sport: string }> }): Promise<Metadata> {
+  const { sport } = await params;
+  const config = sportConfig[sport];
+  if (!config) return {};
+  return {
+    title: `${config.icon} ${config.label} Karten`,
+    description: `Alle ${config.label} Sammelkarten im Überblick. Market Index 2025: ${config.marketIndex}. ${config.indexNote}.`,
+    openGraph: {
+      title: `${config.icon} ${config.label} Karten | ENON CARDS`,
+      description: `Alle ${config.label} Sammelkarten im Überblick. Market Index 2025: ${config.marketIndex}.`,
+    },
+  };
 }
 
 export default async function SportPage({ params }: { params: Promise<{ sport: string }> }) {
