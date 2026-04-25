@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     siteName: 'ENON CARDS',
     title: 'ENON CARDS – Sports Card Kollektion',
     description: 'Entdecke seltene Baseball, Basketball, Football und Hockey Sammelkarten. Marktanalysen, Preis-Guide und persönliche Sammlung.',
+    images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS – Sports Card Kollektion' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -36,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="de">
       <body className="bg-[#0A1628] text-white min-h-screen flex flex-col" style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}>
         <Header />
-        <main className="flex-grow">{children}</main>
+        <main id="main-content" className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import cards from '@/data/cards.json';
 import { notFound } from 'next/navigation';
 import CardItem from '@/components/CardItem';
 import PriceTrend from '@/components/PriceTrend';
+import { sportColors, rarityColors } from '@/lib/cardConfig';
 
 export function generateStaticParams() {
   return cards.map(card => ({ id: card.id }));
@@ -19,22 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     openGraph: {
       title: `${card.name} – ${card.year} ${card.brand} | ENON CARDS`,
       description: card.description,
+      images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS' }],
     },
   };
 }
-
-const sportColors: Record<string, string> = {
-  baseball: 'bg-blue-700',
-  basketball: 'bg-blue-500',
-  football: 'bg-blue-600',
-  hockey: 'bg-blue-800',
-};
-
-const rarityColors: Record<string, string> = {
-  common: 'bg-[#1e3a6e] text-[#94A3B8]',
-  rare: 'bg-[#1D4ED8] text-blue-100',
-  legendary: 'bg-[#2563EB] text-white',
-};
 
 export default async function CardDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -50,8 +40,27 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
 
   const isHighValue = card.rarity === 'rare' || card.rarity === 'legendary';
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: card.name,
+    description: card.description,
+    brand: { '@type': 'Brand', name: card.brand },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: card.price,
+      itemCondition: 'https://schema.org/UsedCondition',
+      availability: 'https://schema.org/InStock',
+    },
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Link href="/cards" className="inline-flex items-center text-[#3B82F6] hover:text-blue-300 mb-8 transition-colors font-medium text-sm">
         ← Zurück zum Katalog
       </Link>
@@ -59,8 +68,8 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
       <div className="grid md:grid-cols-2 gap-12 bg-[#0D1F3C] rounded-2xl p-8 border border-[#1e3a6e] mb-8">
         <div className="flex justify-center">
           <div className="relative">
-            <img
-              src="/enoncards/images/placeholder.svg"
+            <Image
+              src="/images/placeholder.svg"
               alt={card.name}
               width={288}
               height={288}
@@ -71,7 +80,7 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
             </span>
             {card.trending && (
               <span className="absolute top-3 right-3 bg-[#2563EB] text-white text-xs font-bold px-2 py-1 rounded-full">
-                📈 Trending
+                <span aria-hidden="true">📈</span> Trending
               </span>
             )}
           </div>
@@ -111,16 +120,17 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
               href={card.ebaySearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#162444] hover:bg-[#1a2f5e] border border-[#2563EB]/40 hover:border-[#2563EB] text-white font-semibold px-6 py-3 rounded-xl transition-all mb-4"
+              aria-label={`${card.name} Live-Preis auf eBay prüfen (öffnet in neuem Tab)`}
+              className="inline-flex items-center justify-center gap-2 bg-[#162444] hover:bg-[#1a2f5e] border border-[#2563EB]/40 hover:border-[#2563EB] text-white font-semibold px-6 py-3 rounded-xl transition-all mb-4 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-[#0A1628]"
             >
-              🏷️ Live-Preis auf eBay prüfen →
+              <span aria-hidden="true">🏷️</span> Live-Preis auf eBay prüfen →
             </a>
           )}
 
           {isHighValue && (
             <div className="bg-[#1a2f5e] border border-[#2563EB]/40 rounded-xl p-4">
               <p className="text-[#3B82F6] font-semibold text-sm">
-                💎 {card.rarity === 'legendary' ? 'Legendäre Karte' : 'Seltene Karte'} – Hohes Wertsteigerungspotenzial
+                <span aria-hidden="true">💎</span> {card.rarity === 'legendary' ? 'Legendäre Karte' : 'Seltene Karte'} – Hohes Wertsteigerungspotenzial
               </p>
               <p className="text-[#94A3B8] text-xs mt-1">
                 Diese Karte hat aufgrund ihrer Seltenheit und des Spielers ein überdurchschnittliches Investitionspotenzial.
@@ -147,7 +157,7 @@ export default async function CardDetailPage({ params }: { params: Promise<{ id:
 
       {/* Grading Info */}
       <div className="bg-[#0D1F3C] rounded-2xl p-6 border border-[#1e3a6e] mb-8">
-        <h2 className="text-xl font-bold text-white mb-4">📋 Was bedeutet {card.condition}?</h2>
+        <h2 className="text-xl font-bold text-white mb-4"><span aria-hidden="true">📋</span> Was bedeutet {card.condition}?</h2>
         <div className="grid sm:grid-cols-2 gap-4 text-sm text-[#94A3B8]">
           <div>
             <p className="text-[#E2E8F0] font-semibold mb-1">PSA Grading System</p>

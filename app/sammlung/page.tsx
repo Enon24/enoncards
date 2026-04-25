@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import allCards from '@/data/cards.json';
 import { useCollection, removeFromCollection } from '@/lib/collection';
@@ -31,7 +32,7 @@ export default function SammlungPage() {
         <h1 className="text-4xl font-bold text-white mb-4">Meine Sammlung</h1>
         <p className="text-[#94A3B8] mb-12">Deine persönliche Kartensammlung</p>
         <div className="text-center py-24 bg-[#0D1F3C] rounded-2xl border border-[#1e3a6e]">
-          <div className="text-6xl mb-4">📦</div>
+          <div className="text-6xl mb-4" aria-hidden="true">📦</div>
           <h2 className="text-2xl font-bold text-white mb-3">Deine Sammlung ist leer</h2>
           <p className="text-[#94A3B8] mb-6">Füge Karten aus dem Katalog hinzu, um deine Sammlung aufzubauen.</p>
           <Link
@@ -86,8 +87,8 @@ export default function SammlungPage() {
             <Link href={`/cards/${card.id}`}>
               <div className="bg-[#0D1F3C] border border-[#1e3a6e] rounded-xl overflow-hidden hover:border-[#3B82F6]/60 transition-all duration-300 cursor-pointer group">
                 <div className="relative">
-                  <img
-                    src="/enoncards/images/placeholder.svg"
+                  <Image
+                    src="/images/placeholder.svg"
                     alt={card.name}
                     width={400}
                     height={160}
@@ -98,11 +99,11 @@ export default function SammlungPage() {
                   </span>
                   {card.trending && (
                     <span className="absolute top-2 right-2 bg-[#2563EB] text-white text-xs font-bold px-2 py-1 rounded-full">
-                      📈
+                      <span aria-hidden="true">📈</span>
                     </span>
                   )}
                 </div>
-                <div className="p-4">
+                <div className="p-4 pb-10">
                   <h3 className="text-white font-bold truncate">{card.name}</h3>
                   <p className="text-[#94A3B8] text-sm">{card.team}</p>
                   <p className="text-[#94A3B8]/60 text-xs mt-1">{card.year} · {card.condition}</p>
@@ -110,9 +111,10 @@ export default function SammlungPage() {
                 </div>
               </div>
             </Link>
+            {/* Remove button is anchored to the bottom-right of the card, below the image area */}
             <button
               onClick={() => removeFromCollection(card.id)}
-              className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2 py-1 rounded-full transition-colors z-10"
+              className="absolute bottom-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2 py-1 rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#0D1F3C]"
               aria-label={`${card.name} aus Sammlung entfernen`}
             >
               ✕

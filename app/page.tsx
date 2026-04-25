@@ -2,9 +2,8 @@ import Link from 'next/link';
 import CardItem from '@/components/CardItem';
 import cards from '@/data/cards.json';
 
-const trendingIds = ['11', '10', '13', '15'];
-const trendingCards = trendingIds.map(id => cards.find(c => c.id === id)).filter(Boolean);
-const latestCards = [...cards].slice(-6).reverse();
+const trendingCards = cards.filter(c => c.trending).slice(0, 4);
+const latestCards = [...cards].sort((a, b) => b.year - a.year).slice(0, 6);
 
 const marketIndex = [
   { label: 'Basketball Index', change: '+29%', icon: '🏀', sport: 'basketball' },
@@ -89,11 +88,11 @@ export default function HomePage() {
             <span className="text-white font-semibold">CardLadder Market Index 2025</span>
             <span className="text-[#94A3B8] text-xs ml-auto">Quelle: CardLadder.com</span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {marketIndex.map(item => (
             <Link key={item.sport} href={`/sport/${item.sport}`}>
                 <div className="bg-[#162444] border border-[#1e3a6e] hover:border-[#3B82F6]/50 rounded-xl p-4 text-center transition-colors cursor-pointer">
-                  <div className="text-2xl mb-1">{item.icon}</div>
+                  <div className="text-2xl mb-1" aria-hidden="true">{item.icon}</div>
                   <div className="text-[#10B981] text-xl font-extrabold">↑ {item.change}</div>
                   <div className="text-[#94A3B8] text-xs mt-1">{item.label}</div>
                 </div>
@@ -107,14 +106,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Top 4 Trending Cards */}
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-center gap-3 mb-8">
-          <span className="text-2xl">🔥</span>
+          <span className="text-2xl" aria-hidden="true">🔥</span>
           <h2 className="text-3xl font-bold text-white">Top Trending Karten 2025</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {trendingCards.map(card => card && (
+          {trendingCards.map(card => (
             <CardItem key={card.id} card={card} />
           ))}
         </div>
@@ -128,7 +126,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {marketStats.map(stat => (
               <div key={stat.label} className="bg-[#162444] border border-[#1e3a6e] rounded-xl p-6 text-center">
-                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="text-3xl mb-2" aria-hidden="true">{stat.icon}</div>
                 <div className="text-2xl font-extrabold text-[#3B82F6] mb-1">{stat.value}</div>
                 <div className="text-[#94A3B8] text-sm">{stat.label}</div>
               </div>
@@ -140,7 +138,7 @@ export default function HomePage() {
       {/* Top eBay Sellers 2025 */}
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-center gap-3 mb-2">
-          <span className="text-2xl">🏆</span>
+          <span className="text-2xl" aria-hidden="true">🏆</span>
           <h2 className="text-3xl font-bold text-white">Top eBay-Verkäufer 2025</h2>
         </div>
         <p className="text-[#94A3B8] text-sm mb-8">Quelle: eBay Collected Report 2025 – Jahresumsatz nach Spieler</p>
@@ -153,7 +151,7 @@ export default function HomePage() {
               <span className={`text-lg font-extrabold w-8 text-center ${i === 0 ? 'text-[#3B82F6]' : 'text-[#94A3B8]'}`}>
                 #{seller.rank}
               </span>
-              <span className="text-xl">{seller.sport}</span>
+              <span className="text-xl" aria-hidden="true">{seller.sport}</span>
               <span className="text-white font-semibold flex-1">{seller.name}</span>
               <span className="text-[#10B981] font-bold">{seller.volume}</span>
             </div>
@@ -167,7 +165,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-white">Neueste Karten</h2>
             <Link href="/cards" className="text-[#3B82F6] hover:text-blue-300 font-medium transition-colors text-sm">
-              Alle 30 anzeigen →
+              Alle {cards.length} anzeigen →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -184,7 +182,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {whyInvest.map(item => (
             <div key={item.title} className="bg-[#162444] border border-[#1e3a6e] rounded-xl p-8 text-center">
-              <div className="text-4xl mb-4">{item.icon}</div>
+              <div className="text-4xl mb-4" aria-hidden="true">{item.icon}</div>
               <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
               <p className="text-[#94A3B8] leading-relaxed text-sm">{item.text}</p>
             </div>

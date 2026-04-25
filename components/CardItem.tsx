@@ -1,22 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import PriceTrend from './PriceTrend';
 import { useCollection, toggleInCollection } from '@/lib/collection';
+import { sportColors, rarityColors } from '@/lib/cardConfig';
 import type { Card } from '@/types/card';
-
-const sportColors: Record<string, string> = {
-  baseball: 'bg-blue-700',
-  basketball: 'bg-blue-500',
-  football: 'bg-blue-600',
-  hockey: 'bg-blue-800',
-};
-
-const rarityColors: Record<string, string> = {
-  common: 'bg-[#1e3a6e] text-[#94A3B8]',
-  rare: 'bg-[#1D4ED8] text-blue-100',
-  legendary: 'bg-[#2563EB] text-white',
-};
 
 export default function CardItem({ card }: { card: Card }) {
   const collection = useCollection();
@@ -29,8 +18,8 @@ export default function CardItem({ card }: { card: Card }) {
     <article className="bg-[#0D1F3C] border border-[#1e3a6e] rounded-xl overflow-hidden hover:border-[#3B82F6]/60 hover:shadow-lg hover:shadow-[#3B82F6]/10 transition-all duration-300 group flex flex-col h-full">
       <Link href={`/cards/${card.id}`} className="flex flex-col flex-1">
         <div className="relative">
-          <img
-            src="/enoncards/images/placeholder.svg"
+          <Image
+            src="/images/placeholder.svg"
             alt={card.name}
             width={400}
             height={192}
@@ -41,7 +30,7 @@ export default function CardItem({ card }: { card: Card }) {
           </span>
           {card.trending && (
             <span className="absolute top-2 right-2 bg-[#2563EB] text-white text-xs font-bold px-2 py-1 rounded-full">
-              📈 Trending
+              <span aria-hidden="true">📈</span> Trending
             </span>
           )}
         </div>
@@ -68,16 +57,17 @@ export default function CardItem({ card }: { card: Card }) {
             href={card.ebaySearchUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full text-center text-xs font-semibold py-1.5 rounded-lg bg-[#0A1628] border border-[#1e3a6e] text-[#94A3B8] hover:border-[#3B82F6] hover:text-[#3B82F6] transition-all"
+            aria-label={`${card.name} Live-Preis auf eBay prüfen (öffnet in neuem Tab)`}
+            className="w-full text-center text-xs font-semibold py-1.5 rounded-lg bg-[#0A1628] border border-[#1e3a6e] text-[#94A3B8] hover:border-[#3B82F6] hover:text-[#3B82F6] transition-all focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-[#0A1628]"
           >
-            🏷️ eBay Live-Preis
+            <span aria-hidden="true">🏷️</span> eBay Live-Preis
           </a>
         )}
         <button
           onClick={() => toggleInCollection(card.id)}
           aria-pressed={saved}
           aria-label={saved ? 'Aus Sammlung entfernen' : 'Zur Sammlung hinzufügen'}
-          className={`w-full text-sm font-semibold py-2 rounded-lg transition-all duration-200 ${
+          className={`w-full text-sm font-semibold py-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-[#0A1628] ${
             saved
               ? 'bg-[#1e3a6e] text-[#3B82F6] border border-[#2563EB]'
               : 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white'
