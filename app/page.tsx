@@ -1,22 +1,30 @@
 import Link from "next/link";
 import CardItem from "@/components/CardItem";
 import cards from "@/data/cards.json";
-import { enrichCard } from "@/lib/ai-lite";
 
-// 🧠 AI ENGINE APPLY
-const aiCards = cards.map(enrichCard);
+import { updateTrending } from "@/lib/trend-engine";
+import { generateNewCard } from "@/lib/auto-generator";
 
-// 🔥 Trending Cards (AI-based)
-const trendingCards = aiCards
+// 🔁 AI Layer: Karten erweitern + optional neue Karte hinzufügen
+const baseCards = [...cards];
+
+// OPTIONAL: 1 neue AI-Karte hinzufügen (Simulation)
+const aiInjectedCards = [...baseCards, generateNewCard()];
+
+// 🔥 Trending + AI Processing
+const processedCards = updateTrending(aiInjectedCards);
+
+// 🔥 Trending Cards
+const trendingCards = processedCards
   .filter((c) => c.trending)
   .slice(0, 4);
 
-// 📦 Latest Cards (AI sorted)
-const latestCards = [...aiCards]
+// 🆕 Latest Cards (nach Jahr sortiert)
+const latestCards = [...processedCards]
   .sort((a, b) => b.year - a.year)
   .slice(0, 6);
 
-// 📊 Market Index (static UI data)
+// 📊 Market Index (unverändert)
 const marketIndex = [
   { label: "Basketball Index", change: "+29%", icon: "🏀", sport: "basketball" },
   { label: "Baseball Index", change: "+17%", icon: "⚾", sport: "baseball" },
@@ -24,7 +32,7 @@ const marketIndex = [
   { label: "Football Index", change: "+0.61%", icon: "🏈", sport: "football" },
 ];
 
-// 📈 Market Stats
+// 📊 Stats
 const marketStats = [
   { label: "Marktgröße 2025", value: "$13,5 Mrd.", icon: "🌍" },
   { label: "eBay-Umsatz", value: "$1,78 Mrd.", icon: "🏷️" },
@@ -32,7 +40,7 @@ const marketStats = [
   { label: "Wachstum p.a.", value: "9,8%", icon: "📈" },
 ];
 
-// 🏆 Top Sellers
+// 🏆 Sellers
 const ebaySellers = [
   { rank: 1, name: "Michael Jordan", sport: "🏀", volume: "$70,5 Mio." },
   { rank: 2, name: "Shohei Ohtani", sport: "⚾", volume: "$57,9 Mio." },
@@ -44,132 +52,114 @@ const ebaySellers = [
   { rank: 8, name: "Mickey Mantle", sport: "⚾", volume: "$13,0 Mio." },
 ];
 
-// 💡 AI Investment Reasons
+// 💡 Why Invest
 const whyInvest = [
   {
     icon: "📈",
     title: "Bewiesene Wertsteigerung",
-    text: "Basketball +29%, Baseball +17% – der Markt wächst konstant und stabil.",
+    text: "Basketball +29%, Baseball +17% – starke Marktdynamik 2025.",
   },
   {
     icon: "💎",
     title: "PSA 10 Multiplikator",
-    text: "Top-graded cards erzielen 3–10x höhere Preise als ungradierte Karten.",
+    text: "Graded Cards erzielen 3–10x höhere Preise als Raw Cards.",
   },
   {
     icon: "🚀",
-    title: "Starkes Marktwachstum",
-    text: "Der Sammelkartenmarkt wächst jährlich stark durch globale Nachfrage.",
+    title: "Marktwachstum",
+    text: "9,8% CAGR Prognose bis 2034 laut Marktanalysen.",
   },
 ];
 
 export default function HomePage() {
   return (
     <div>
-
       {/* HERO */}
-      <section className="relative bg-[#0A1628] py-24 px-4 text-center overflow-hidden">
-        <div className="relative max-w-4xl mx-auto">
-          <p className="text-[#3B82F6] text-sm font-semibold uppercase mb-4">
-            0€ AI Sports Cards
-          </p>
+      <section className="relative bg-[#0A1628] py-24 px-4 text-center">
+        <h1 className="text-6xl font-bold text-white">
+          ENON <span className="text-blue-500">CARDS</span>
+        </h1>
+        <p className="text-gray-300 mt-4 text-xl">
+          Dein Sportkarten AI Universum
+        </p>
 
-          <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-4">
-            ENON <span className="text-[#3B82F6]">CARDS</span>
-          </h1>
-
-          <p className="text-[#E2E8F0] text-xl md:text-2xl mb-8">
-            AI-powered Sports Card Intelligence (FREE)
-          </p>
-
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              href="/cards"
-              className="bg-[#2563EB] text-white px-8 py-3 rounded-xl"
-            >
-              Katalog →
-            </Link>
-
-            <Link
-              href="/markt"
-              className="bg-[#162444] text-white px-8 py-3 rounded-xl"
-            >
-              Markt Analyse
-            </Link>
-          </div>
+        <div className="mt-8 flex justify-center gap-4">
+          <Link
+            href="/cards"
+            className="bg-blue-600 px-6 py-3 rounded-xl text-white"
+          >
+            Katalog
+          </Link>
+          <Link
+            href="/markt"
+            className="bg-gray-700 px-6 py-3 rounded-xl text-white"
+          >
+            Markt
+          </Link>
         </div>
       </section>
 
       {/* TRENDING */}
       <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-white mb-6">
-          🔥 AI Trending Cards
+        <h2 className="text-2xl text-white font-bold mb-6">
+          🔥 Trending Cards (AI)
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {trendingCards.map((card) => (
             <CardItem key={card.id} card={card} />
           ))}
         </div>
       </section>
 
-      {/* MARKET STATS */}
+      {/* LATEST */}
       <section className="bg-[#0D1F3C] py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold text-white text-center mb-8">
-            Markt Übersicht
+          <h2 className="text-white text-2xl font-bold mb-6">
+            🆕 Latest AI Cards
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {marketStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="bg-[#162444] rounded-xl p-6 text-center"
-              >
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-xl text-[#3B82F6] font-bold">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {latestCards.map((card) => (
+              <CardItem key={card.id} card={card} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* LATEST */}
-      <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-white mb-6">
-          📦 Neueste Karten
+      {/* MARKET STATS */}
+      <section className="max-w-7xl mx-auto py-12 px-4">
+        <h2 className="text-white text-2xl font-bold mb-6">
+          📊 Market Stats
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {latestCards.map((card) => (
-            <CardItem key={card.id} card={card} />
-          ))}
-        </div>
-      </section>
-
-      {/* WHY INVEST */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-white text-center mb-10">
-          Warum investieren?
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {whyInvest.map((item) => (
-            <div
-              key={item.title}
-              className="bg-[#162444] p-6 rounded-xl text-center"
-            >
-              <div className="text-4xl mb-3">{item.icon}</div>
-              <h3 className="text-white font-bold mb-2">{item.title}</h3>
-              <p className="text-gray-400 text-sm">{item.text}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {marketStats.map((s) => (
+            <div key={s.label} className="bg-gray-800 p-4 rounded-xl">
+              <div className="text-2xl">{s.icon}</div>
+              <div className="text-blue-400 font-bold">{s.value}</div>
+              <div className="text-gray-400 text-sm">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
+      {/* WHY INVEST */}
+      <section className="max-w-7xl mx-auto py-12 px-4">
+        <h2 className="text-white text-2xl font-bold mb-6">
+          💡 Why Invest
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {whyInvest.map((w) => (
+            <div key={w.title} className="bg-gray-800 p-6 rounded-xl">
+              <div className="text-3xl">{w.icon}</div>
+              <h3 className="text-white font-bold mt-2">{w.title}</h3>
+              <p className="text-gray-400 text-sm mt-2">{w.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
