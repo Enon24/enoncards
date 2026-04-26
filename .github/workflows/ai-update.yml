@@ -2,7 +2,8 @@ name: 🤖 KI Daten-Update
 
 on:
   schedule:
-    - cron: '0 * * * *'   # Jede Stunde
+    - cron: '0 6 * * *'    # Täglich um 06:00 UTC
+    - cron: '0 18 * * *'   # Täglich um 18:00 UTC
   workflow_dispatch:        # Manuell auslösbar (zum Testen)
 
 jobs:
