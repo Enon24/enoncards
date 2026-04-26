@@ -1,0 +1,40 @@
+name: 🤖 KI Daten-Update
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # Jede Stunde
+  workflow_dispatch:        # Manuell auslösbar (zum Testen)
+
+jobs:
+  ai-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Dependencies installieren
+        run: npm ci
+
+      - name: 🤖 KI-Update ausführen
+        run: node scripts/ai-update.mjs
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: 💾 Änderungen committen & pushen
+        run: |
+          git config --global user.name "ENON AI Bot 🤖"
+          git config --global user.email "ai-bot@enoncards.de"
+          git add data/cards.json
+          git diff --staged --quiet && echo "Keine Änderungen." || (
+            git commit -m "🤖 KI-Update: Marktdaten vom $(date +'%d.%m.%Y %H:%M') Uhr"
+            git push
+          )
