@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ErrorBoundary from '@/components/ErrorBoundary';
 
 const BASE_URL = 'https://enon24.github.io/enoncards';
 
@@ -39,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#0A1628] text-white min-h-screen flex flex-col" style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}>
         <Header />
         <main id="main-content" className="flex-grow">
-          <ErrorBoundary>{children}</ErrorBoundary>
+          {children}
         </main>
         <Footer />
       </body>
