@@ -3,6 +3,7 @@
 import { useState, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CardItem from '@/components/CardItem';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import allCards from '@/data/cards.json';
 import type { Card } from '@/types/card';
 
@@ -172,7 +173,9 @@ function CatalogContent() {
 export default function CatalogPage() {
   return (
     <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-12 text-[#94A3B8]">Laden…</div>}>
-      <CatalogContent />
+      <ErrorBoundary>
+        <CatalogContent />
+      </ErrorBoundary>
     </Suspense>
   );
 }

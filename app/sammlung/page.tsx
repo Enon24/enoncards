@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import allCards from '@/data/cards.json';
 import { useCollection, removeFromCollection } from '@/lib/collection';
+import CardItem from '@/components/CardItem';
 
 const sportLabels: Record<string, string> = {
   baseball: '⚾ Baseball',
@@ -84,37 +84,10 @@ export default function SammlungPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {collectionCards.map(card => (
           <div key={card.id} className="relative">
-            <Link href={`/cards/${card.id}`}>
-              <div className="bg-[#0D1F3C] border border-[#1e3a6e] rounded-xl overflow-hidden hover:border-[#3B82F6]/60 transition-all duration-300 cursor-pointer group">
-                <div className="relative">
-                  <Image
-                    src="/images/placeholder.svg"
-                    alt={card.name}
-                    width={400}
-                    height={160}
-                    className="w-full h-40 object-cover"
-                  />
-                  <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full uppercase">
-                    {card.sport}
-                  </span>
-                  {card.trending && (
-                    <span className="absolute top-2 right-2 bg-[#2563EB] text-white text-xs font-bold px-2 py-1 rounded-full">
-                      <span aria-hidden="true">📈</span>
-                    </span>
-                  )}
-                </div>
-                <div className="p-4 pb-10">
-                  <h3 className="text-white font-bold truncate">{card.name}</h3>
-                  <p className="text-[#94A3B8] text-sm">{card.team}</p>
-                  <p className="text-[#94A3B8]/60 text-xs mt-1">{card.year} · {card.condition}</p>
-                  <p className="text-[#3B82F6] font-bold text-lg mt-2">${card.price.toFixed(0)}</p>
-                </div>
-              </div>
-            </Link>
-            {/* Remove button is anchored to the bottom-right of the card, below the image area */}
+            <CardItem card={card} />
             <button
               onClick={() => removeFromCollection(card.id)}
-              className="absolute bottom-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2 py-1 rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#0D1F3C]"
+              className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2 py-1 rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#0D1F3C]"
               aria-label={`${card.name} aus Sammlung entfernen`}
             >
               ✕

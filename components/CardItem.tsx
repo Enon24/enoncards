@@ -19,7 +19,7 @@ export default function CardItem({ card }: { card: Card }) {
       <Link href={`/cards/${card.id}`} className="flex flex-col flex-1">
         <div className="relative">
           <Image
-            src="/images/placeholder.svg"
+            src={`/images/cards/card-${card.id}.svg`}
             alt={card.name}
             width={400}
             height={192}
