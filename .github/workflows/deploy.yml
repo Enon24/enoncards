@@ -2,6 +2,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: ["🤖 KI Daten-Update"]
+    types: [completed]
+    branches: [main]
 
 concurrency:
   group: pages
@@ -31,6 +35,7 @@ jobs:
 
   deploy:
     needs: build
+    if: ${{ always() && needs.build.result == 'success' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
