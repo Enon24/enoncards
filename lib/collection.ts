@@ -1,20 +1,26 @@
 import { useSyncExternalStore } from 'react';
-
 const STORAGE_KEY = 'enoncards-collection';
 const EVENT_NAME = 'collection-changed';
+
+let cachedCollection: string[] = [];
 
 export function getCollection(): string[] {
   if (typeof window === 'undefined') return [];
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     const parsed = JSON.parse(data ?? '[]');
-    return Array.isArray(parsed) ? parsed : [];
+    const result = Array.isArray(parsed) ? parsed : [];
+    if (JSON.stringify(result) !== JSON.stringify(cachedCollection)) {
+      cachedCollection = result;
+    }
+    return cachedCollection;
   } catch {
-    return [];
+    return cachedCollection;
   }
 }
 
 export function setCollection(ids: string[]): void {
+  cachedCollection = ids;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   window.dispatchEvent(new Event(EVENT_NAME));
 }
