@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ sport: st
     openGraph: {
       title: `${config.icon} ${config.label} Karten | ENON CARDS`,
       description: `Alle ${config.label} Sammelkarten im Überblick. Market Index 2025: ${config.marketIndex}.`,
-      images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS' }],
+      images: [{ url: 'og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS' }],
     },
   };
 }

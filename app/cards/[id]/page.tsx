@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     openGraph: {
       title: `${card.name} – ${card.year} ${card.brand} | ENON CARDS`,
       description: card.description,
-      images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS' }],
+      images: [{ url: 'og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS' }],
     },
   };
 }

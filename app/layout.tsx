@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'ENON CARDS',
     title: 'ENON CARDS – Sports Card Kollektion',
     description: 'Entdecke seltene Baseball, Basketball, Football und Hockey Sammelkarten. Marktanalysen, Preis-Guide und persönliche Sammlung.',
-    images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS – Sports Card Kollektion' }],
+    images: [{ url: 'og-image.svg', width: 1200, height: 630, alt: 'ENON CARDS – Sports Card Kollektion' }],
   },
   twitter: {
     card: 'summary_large_image',
